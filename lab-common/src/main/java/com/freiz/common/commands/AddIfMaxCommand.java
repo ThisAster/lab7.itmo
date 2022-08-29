@@ -13,6 +13,7 @@ import com.freiz.common.util.HistoryManager;
 import com.freiz.common.util.InputManager;
 import com.freiz.common.util.OutputManager;
 
+
 public class AddIfMaxCommand extends AbstractCommand {
     private final OutputManager outputManager;
     private final InputManager inputManager;

@@ -51,22 +51,28 @@ public class ServerApp {
             server.configureBlocking(false);
             logger.info("start work");
             new Thread(() -> {
-                while (true) {
-                    try {
-                        listen(server);
-                    } catch (NotMaxException | NotMinException e) {
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    acceptConsoleInput();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                
             }).start();
+            // new Thread(() -> {
+            //         try {
+            //             listen(server);
+            //         } catch (NotMaxException | NotMinException e) {
+            //             throw new RuntimeException(e);
+            //         }
+            // }).start();
             listen(server);
             logger.info("wait connection");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println(port);
             System.out.println("DatagramChannel fall");
-        } catch (NotMinException | NotMaxException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+             throw new RuntimeException(e);
         }
     }
 
@@ -75,7 +81,6 @@ public class ServerApp {
         ExecutorService sender = Executors.newFixedThreadPool(2);
         while (true) {
             try {
-                acceptConsoleInput();
                 ByteBuffer buffer = ByteBuffer.allocate(maxPacket);
                 SocketAddress address = server.receive(buffer);
 

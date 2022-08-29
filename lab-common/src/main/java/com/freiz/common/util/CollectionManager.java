@@ -35,8 +35,11 @@ public class CollectionManager implements ICollectionManager {
     public void add(SpaceMarine spaceMarine) {
         lock.writeLock();
         spaceMarinesCollection.add(spaceMarine);
-        lock.writeLock().unlock();
+        if (lock.isWriteLockedByCurrentThread()) {
+            lock.writeLock().unlock();
+        }
     }
+    
     @Override
     public boolean isAny(Long id) {
         return spaceMarinesCollection.stream().anyMatch(x -> x.getId().equals(id));

@@ -64,6 +64,7 @@ public class ClientApp {
         commandsClientMap.put("filter_by_weapon_type", new FilterByWeaponTypeCommand());
         commandsClientMap.put("remove_by_id", new RemoveByIdCommand());
     }
+
     public boolean exeFile(String input, InputManager inputManager1) {
         if (input.startsWith("execute_script")) {
             String[] args = input.split(" ");
@@ -73,7 +74,9 @@ public class ClientApp {
             }
             File fileName = new File(args[1]);
             if (fileName.canRead()) {
-                try {
+                try { // TODO: при исполнении скрипта нужно сделать проверку, если есть команда
+                      // исполнение скрипта рекурсивно, то нужно сделать проверку, что я не открываю
+                      // его заново
                     inputManager1.connectToFile(fileName);
                     logger.fine("successful executing");
                     return true;
@@ -85,18 +88,20 @@ public class ClientApp {
         } else if (input.startsWith("exit")) {
             logger.fine("successful exit");
             System.exit(-1);
-            }
+        }
         return false;
     }
+
     public Object deserialize(byte[] data) {
         try {
-        ByteArrayInputStream bos = new ByteArrayInputStream(data);
-        ObjectInputStream objectOutputStream = new ObjectInputStream(bos);
-        return objectOutputStream.readObject();
+            ByteArrayInputStream bos = new ByteArrayInputStream(data);
+            ObjectInputStream objectOutputStream = new ObjectInputStream(bos);
+            return objectOutputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void sendThenRecieve() {
         InputManager scanner = new InputManager(System.in);
         try {
@@ -165,9 +170,9 @@ public class ClientApp {
             String password = consoleScanner.nextLine();
             Request request;
             if ("y".equalsIgnoreCase(yn)) {
-                request = new LoginCommand().packageRequest(new Object[]{});
+                request = new LoginCommand().packageRequest(new Object[] {});
             } else {
-                request = new RegisterCommand().packageRequest(new Object[]{});
+                request = new RegisterCommand().packageRequest(new Object[] {});
             }
             User user = new User(login, encryptPassword(password));
             sendAuthCommand(request, user);
@@ -192,4 +197,3 @@ public class ClientApp {
         }
     }
 }
-
