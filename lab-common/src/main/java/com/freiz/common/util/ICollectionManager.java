@@ -38,7 +38,7 @@ public interface ICollectionManager {
 
     boolean removeById(Long id);
 
-    HashSet<SpaceMarine> getAll();
+    Set<SpaceMarine> getAll();
 
     List<SpaceMarine> getAllSorted();
 

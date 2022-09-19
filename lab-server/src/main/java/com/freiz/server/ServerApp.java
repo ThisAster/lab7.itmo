@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -58,13 +59,6 @@ public class ServerApp {
                 }
                 
             }).start();
-            // new Thread(() -> {
-            //         try {
-            //             listen(server);
-            //         } catch (NotMaxException | NotMinException e) {
-            //             throw new RuntimeException(e);
-            //         }
-            // }).start();
             listen(server);
             logger.info("wait connection");
         } catch (IOException e) {
@@ -76,8 +70,8 @@ public class ServerApp {
         }
     }
 
-    private void listen(DatagramChannel server) throws NotMaxException, NotMinException {
-        ExecutorService executor = Executors.newCachedThreadPool();
+    private void listen(DatagramChannel server) {
+        ForkJoinPool executor = new ForkJoinPool();
         ExecutorService sender = Executors.newFixedThreadPool(2);
         while (true) {
             try {
@@ -86,17 +80,14 @@ public class ServerApp {
 
                 if (address != null) {
                     buffer.flip();
-                    Future<ByteBuffer> submit = executor.submit(new RequestTask(buffer, collectionManager, historyManagerImpl));
-                    ByteBuffer byteBufferResult = submit.get();
-                    sender.submit(new SenderTask(byteBufferResult, address, server));
+                    ByteBuffer result = executor.invoke(new RequestTask(buffer, collectionManager, historyManagerImpl));
+                    sender.submit(new SenderTask(result, address, server));
                     logger.info("By server send data to client");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 logger.severe("cant connection");
                 break;
-            } catch (ExecutionException | InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
     }

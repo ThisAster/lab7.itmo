@@ -6,6 +6,7 @@ import com.freiz.common.data.Weapon;
 import com.freiz.common.db.SpaceMarineDao;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class CollectionManager implements ICollectionManager {
     private final HashSet<Long> hashSetId = new HashSet<>();
     private Long idIter = 1L;
-    private HashSet<SpaceMarine> spaceMarinesCollection = new HashSet<>();
+    private Set<SpaceMarine> spaceMarinesCollection = Collections.synchronizedSet(new HashSet<>());
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
@@ -91,7 +92,7 @@ public class CollectionManager implements ICollectionManager {
     }
 
     @Override
-    public HashSet<SpaceMarine> getAll() {
+    public Set<SpaceMarine> getAll() {
         return spaceMarinesCollection;
     }
 

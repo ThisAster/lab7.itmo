@@ -11,7 +11,7 @@ public final class Crypto {
     public static String encryptPassword(String password) {
         String sha = "";
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-384");
             messageDigest.reset();
             messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
             sha = format(messageDigest.digest());

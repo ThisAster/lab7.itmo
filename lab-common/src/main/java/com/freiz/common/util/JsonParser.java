@@ -9,11 +9,12 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Set;
 
 public final class JsonParser {
     private JsonParser() {
     }
-    public static String serialize(HashSet<SpaceMarine> collectionData) {
+    public static String serialize(Set<SpaceMarine> collectionData) {
         Gson g = new GsonBuilder().registerTypeAdapter(java.time.ZonedDateTime.class, new ZonedDateTimeSerializer()).create();
         return g.toJson(collectionData);
     }
