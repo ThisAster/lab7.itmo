@@ -74,9 +74,7 @@ public class ClientApp {
             }
             File fileName = new File(args[1]);
             if (fileName.canRead()) {
-                try { // TODO: при исполнении скрипта нужно сделать проверку, если есть команда
-                      // исполнение скрипта рекурсивно, то нужно сделать проверку, что я не открываю
-                      // его заново
+                try {
                     inputManager1.connectToFile(fileName);
                     logger.fine("successful executing");
                     return true;

@@ -25,7 +25,7 @@ public class LoginCommand extends AbstractCommand {
     @Override
     public CommandResultDto execute(Request request, CollectionManager collectionManager, HistoryManager historyManager) throws NotMaxException, NotMinException {
         User userFromDB = getUser(request.getUser());
-        if (userFromDB != null && userFromDB.getPassword().equals(request.getUser().getPassword())) {
+        if (userFromDB.getId() != 0 && userFromDB.getPassword().equals(request.getUser().getPassword())) {
             return new CommandResultDto("success login, your id=" + userFromDB.getId());
         } else {
             return new CommandResultDto("unsuccess, invalid login or password");

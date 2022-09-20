@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public final class Database {
-    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/postgres";
-    private static final String USER = "postgres";
-    private static final String PASS = "1234";
+    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/studs";
+    private static final String USER = "s338879";
+    private static final String PASS = "7emn2ZsjgX2BaLq4";
 
     private static Database database;
     private final Connection connection;

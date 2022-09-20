@@ -39,7 +39,11 @@ public class RemoveByIdCommand extends AbstractCommand {
 
     @Override
     public Request packageRequest(Object[] args) throws InvalidRequestException {
-        return new Request("remove_by_id", new Object[]{args[1]});
+        if (args.length > 1) {
+            return new Request("remove_by_id", new Object[]{args[1]});
+        } else {
+            throw new InvalidRequestException();
+        }
     }
 
 

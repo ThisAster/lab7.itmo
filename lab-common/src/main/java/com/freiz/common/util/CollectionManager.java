@@ -40,7 +40,6 @@ public class CollectionManager implements ICollectionManager {
             lock.writeLock().unlock();
         }
     }
-    
     @Override
     public boolean isAny(Long id) {
         return spaceMarinesCollection.stream().anyMatch(x -> x.getId().equals(id));

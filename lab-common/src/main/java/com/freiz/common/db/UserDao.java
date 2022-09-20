@@ -81,19 +81,20 @@ public final class UserDao {
     }
 
     public static User getUser(User user) {
+        User userFromDb = new User();
         Connection connection = Database.getInstance().getConnection();
         try (PreparedStatement ps = connection.prepareStatement("select * from \"user\" where name = ?")) {
             ps.setString(1, user.getName());
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setId(rs.getInt("id"));
+                userFromDb.setName(rs.getString("name"));
+                userFromDb.setPassword(rs.getString("password"));
+                userFromDb.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return userFromDb;
     }
 }

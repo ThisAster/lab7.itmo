@@ -1,8 +1,6 @@
 package com.freiz.server;
 
 import com.freiz.common.db.Database;
-import com.freiz.common.exception.NotMaxException;
-import com.freiz.common.exception.NotMinException;
 import com.freiz.common.util.CollectionManager;
 import com.freiz.common.util.FileManager;
 import com.freiz.common.util.HistoryManagerImpl;
@@ -15,11 +13,9 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -57,7 +53,6 @@ public class ServerApp {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                
             }).start();
             listen(server);
             logger.info("wait connection");
@@ -105,7 +100,7 @@ public class ServerApp {
                     System.out.println("Shutting down");
                     logger.info("server down");
                     System.exit(0);
-                    return true;
+                    return true; 
                 default:
                     System.out.println("Unknown command. Available commands are: save, exit");
             }

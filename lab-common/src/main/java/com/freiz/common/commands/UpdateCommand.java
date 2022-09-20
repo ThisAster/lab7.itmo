@@ -27,10 +27,12 @@ public class UpdateCommand extends AbstractCommand {
     }
     @Override
     public Request packageRequest(Object[] args) throws InvalidRequestException {
-        SpaceMarine spaceMarine = AddElem.add(inputManager, outputManager);
-        Request request = new Request("update", new Object[] {args[0], args[1], spaceMarine});
-
-        return request;
+        if (args.length > 2) {
+            SpaceMarine spaceMarine = AddElem.add(inputManager, outputManager);
+            Request request = new Request("update", new Object[] {args[0], args[1], spaceMarine});
+            return request;
+        }
+        throw new InvalidRequestException();
     }
 
     @SneakyThrows

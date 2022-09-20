@@ -148,4 +148,21 @@ public final class SpaceMarineDao {
             e.printStackTrace();
         }
     }
+
+    public static List<Long> getAllUserSpaceMarinesIds(int userId) {
+        List<Long> spaceMarines = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+        try (PreparedStatement ps = connection.prepareStatement("select id from spacemarine where user_id = ?")) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                spaceMarines.add(rs.getLong("id"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return spaceMarines;
+    }
 }
